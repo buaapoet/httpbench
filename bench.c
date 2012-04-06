@@ -1,5 +1,7 @@
 // Small humble program for benchmarking
 // (C) 2012 Dipl.-Inform. (FH) Paul C. Buetow
+// Contact: bench@mx.buetow.org
+// See COPYING for license infos
 
 #include <ctype.h>
 #include <curl/curl.h>
@@ -12,7 +14,7 @@
 #include <time.h>
 #include <unistd.h>
 
-#define VERSION "0.0"
+#define VERSION "0.0.0-master"
 
 #define SUCCESS 0
 #define E_WRONG_USAGE 1
@@ -316,7 +318,7 @@ int main(int i_argc, char **c_argv) {
     d.i_duration_s = -1;
     d.i_timeout = -1;
 
-    while ((i_opt = getopt(i_argc, c_argv, "e:u:r:c:d:t:")) != -1) {
+    while ((i_opt = getopt(i_argc, c_argv, "e:u:r:c:d:t:h")) != -1) {
         switch (i_opt) {
         case 'e':
             d.c_expected = optarg;
@@ -335,6 +337,10 @@ int main(int i_argc, char **c_argv) {
             break;
         case 't':
             d.i_timeout = atoi(optarg);
+            break;
+        case 'h':
+            usage();
+            exit(SUCCESS);
             break;
         case '?':
             if (optopt == 'e' ||

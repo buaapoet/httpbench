@@ -1,0 +1,28 @@
+For general program informations see http://bench.buetow.org
+
+For legal informations see COPYING 
+
+For any program help check run ./bench -h
+
+For a list of features which might be added in the future see WHISHLIST
+
+For a changelog see CHANGELOG
+
+For a list of all known bugs see BUGS
+
+Supported platforms are: Linux, UNIX and a like
+
+Versioning schema: a.b.c[.d][.e], where 
+	a = Don't know yet. Maybe will stay forever 0.
+	b = Major release (new major features)
+	c = Minor release (new minor features or code refactoring)
+	d = Optional, bugfixes only release
+	e = Optional, cosmetic fixes only release
+
+	It's not a release if there is a -master suffix. It's a stable 
+	version (master branch) then.
+
+	It's not a release if there is a -devel suffix. It's a development 
+	version (devel branch) then.
+
+For some help/usage please consult the HELP file.
