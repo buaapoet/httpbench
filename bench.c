@@ -388,7 +388,7 @@ int main(int i_argc, char **c_argv) {
     // Open urllistfile
     fh = fopen(d.c_urlist, "r");
     if (fh == NULL) {
-        fprintf(stdout, "Coult not open file %s\n", d.c_urlist);
+        fprintf(stdout, "Could not open file %s\n", d.c_urlist);
         exit(E_OPEN_FILE);
     }
 
