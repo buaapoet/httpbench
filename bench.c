@@ -212,7 +212,7 @@ void* timer_thread(void *p) {
 
 void* request_thread(void *p) {
     struct data* p_data = (struct data*) p;
-    char *c_response;
+    char *c_response = NULL;
     CURL *p_curl = curl_init(&c_response);
 
     if (p_curl) {
