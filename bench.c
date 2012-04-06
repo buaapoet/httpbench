@@ -14,7 +14,7 @@
 #include <time.h>
 #include <unistd.h>
 
-#define VERSION "0.0.0-master"
+#define VERSION "0.0.0-devel"
 
 #define SUCCESS 0
 #define E_WRONG_USAGE 1
