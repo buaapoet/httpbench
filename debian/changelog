@@ -1,3 +1,9 @@
+httpbench (0.0.1ubuntu3) oneiric; urgency=low
+
+  *  Some test
+
+ -- Paul Buetow <paul@buetow.org>  Sun, 08 Apr 2012 17:32:21 +0200
+
 httpbench (0.0.1ubuntu2) oneiric; urgency=low
 
   * Another version
