@@ -8,9 +8,7 @@ httpbench -u <url> -d sec -d concurrent -r rps [-t ms] [-e expected]
 
 =head1 DESCRIPTION
 
-HTTP Bench is a small program for Linux, UNIX and a like written in C which can be used to benchmark HTTP servers. So why implementing a new benchmarking tool? Because I want a specific benchmark featureset which I could not find in another tools such as Apache Benchmarker or Siege and its more fun to implement my own tool instead of extending the existing tools and BECAUSE I CAN! 
-
-For mor informations please consult the website at http://httpbench.buetow.org.
+HTTP Bench is a small program for Linux, UNIX and a like written in C which can be used to benchmark HTTP servers. For more infos please consult the project website.
 
 =head2 Arguments
 
