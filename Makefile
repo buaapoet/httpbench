@@ -4,9 +4,9 @@ NAME=httpbench
 #FLAGS=-std=c99
 FLAGS=
 all:
-	gcc $(FLAGS) $(NAME).c -o $(NAME) -lcurl -lpthread
+	gcc $(FLAGS) $(NAME).c -o ./debian/usr/bin/$(NAME) -lcurl -lpthread
 debug:
-	gcc $(FLAGS) $(DEBUG) $(NAME).c -o $(NAME) -lcurl -lpthread
+	gcc $(FLAGS) $(DEBUG) $(NAME).c -o ./debian/usr/bin/$(NAME) -lcurl -lpthread
 clean:
 	rm ./debian/usr/bin/$(NAME) *.deb 2>/dev/null
 test: all run-test
