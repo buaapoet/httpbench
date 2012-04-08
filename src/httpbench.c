@@ -1,7 +1,6 @@
 // Small humble program for benchmarking
 // (C) 2012 Dipl.-Inform. (FH) Paul C. Buetow
-// Contact: bench@mx.buetow.org
-// See COPYING for license infos
+// For ./debian/copyright for License 
 
 #include "httpbench.h"
 
