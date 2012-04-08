@@ -57,11 +57,8 @@ DESCRIPTION
                 count and total %). The curl errors will also be reported.
 
 LICENSE
-<<<<<<< HEAD
-    See package description or project website.
-=======
-    See package description.
->>>>>>> d41022d98cba06a6d8ddf7289c103aaf7c9ca71f
+    <<<<<<< HEAD See package description or project website. ======= See
+    package description. >>>>>>> d41022d98cba06a6d8ddf7289c103aaf7c9ca71f
 
 AUTHOR
     Paul Buetow - <http://httpbench.buetow.org>

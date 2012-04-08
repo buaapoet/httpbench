@@ -69,11 +69,7 @@ Iterates over each url in mylist.txt with 1000 cuncurrent threads for 5 minutes 
 
 =head1 LICENSE
 
-<<<<<<< HEAD
 See package description or project website.
-=======
-See package description.
->>>>>>> d41022d98cba06a6d8ddf7289c103aaf7c9ca71f
 
 =head1 AUTHOR
 
