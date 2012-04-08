@@ -3,50 +3,9 @@
 // Contact: bench@mx.buetow.org
 // See COPYING for license infos
 
-#include <ctype.h>
-#include <curl/curl.h>
-#include <curl/easy.h>
-#include <curl/types.h>
-#include <pthread.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-#include <unistd.h>
+#include "httpbench.h"
 
 //#define VERSION "0.0.0-master"
-
-#define SUCCESS 0
-#define E_WRONG_USAGE 1
-#define E_MISSING_OPT_C 2
-#define E_MISSING_OPT_I 3
-#define E_OPT_ERROR 5
-#define E_OPEN_FILE 8
-
-struct data {
-    // Read only for threads
-    int i_duration_s;
-    int i_concurrent;
-    int i_timeout;
-    double d_rps_wanted;
-    char *c_urlist;
-    int i_num_urls;
-    char **pc_urls;
-    char *c_expected;
-
-    // Read/write for threads
-    pthread_mutex_t mutex;
-    int i_exit;
-    double d_time_min;
-    double d_time_max;
-    double d_time_avg;
-    unsigned int ui_curl_errors;
-    unsigned int ui_parse_errors;
-    unsigned int ui_timeout_exceeded;
-    unsigned int ui_count;
-    unsigned int ui_count_total;
-    double d_sleep_us;
-};
 
 void usage(void) {
     fprintf(stdout, "HTTP Bench: Usage:\n");
