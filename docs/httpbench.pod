@@ -1,6 +1,6 @@
 =head1 NAME
 
-httpbench - Simple HTTP bencharking tool
+httpbench - Simple HTTP benchmarking tool
 
 =head1 SYNOPSIS
 
