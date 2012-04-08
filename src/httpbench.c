@@ -4,21 +4,16 @@
 
 #include "httpbench.h"
 
-void usage(void) {
-    fprintf(stdout, "httpbench usage:\n");
-    fprintf(stdout, "./httpbench\n");
-    fprintf(stdout, "\t-u <urllistfile.txt>\n");
-    fprintf(stdout, "\t-d <duration sec>\n");
-    fprintf(stdout, "\t-c <concurrent>\n");
-    fprintf(stdout, "\t-r <rps>\n");
-    fprintf(stdout, "\t[-t <timeoutms>]\n");
-    fprintf(stdout, "\t[-e <exptected response str>]\n");
+void synopsis(void) {
+    printf("Synopsis:\n");
+    printf("httpbench -u <url> -d sec -d concurrent -r rps [-t ms] [-e expected]"); 
+    printf("Please also consult the httpbench manual page\n");
 }
 
 void checkarg_c(char c_name, char *c_arg) {
     if (c_arg == NULL) {
         fprintf(stderr, "Missing mandatory value for option '%c'\n", c_name);
-        usage();
+        synopsis();
         exit(E_MISSING_OPT_C);
     }
 }
@@ -26,7 +21,7 @@ void checkarg_c(char c_name, char *c_arg) {
 void checkarg_i(char c_name, int i_arg) {
     if (i_arg == -1) {
         fprintf(stderr, "Missing mandatory value for option '%c'\n", c_name);
-        usage();
+        synopsis();
         exit(E_MISSING_OPT_I);
     }
 }
@@ -295,7 +290,7 @@ int main(int i_argc, char **c_argv) {
             d.i_timeout = atoi(optarg);
             break;
         case 'h':
-            usage();
+            synopsis();
             exit(SUCCESS);
             break;
         case '?':
@@ -316,7 +311,7 @@ int main(int i_argc, char **c_argv) {
 
             exit(E_OPT_ERROR);
         default:
-            usage();
+            synopsis();
             exit(E_WRONG_USAGE);
             break;
         }
