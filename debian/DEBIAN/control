@@ -4,6 +4,6 @@ Section: base
 Priority: optional
 Architecture: i386
 Depends: libcurl3-gnutls (>= 7.21)
-Maintainer: Paul Buetow <httpbench-deb@mx.buetow.org>
+Maintainer: Paul Buetow <httpbench@mx.buetow.org>
 Description: A simple HTTP benchmarker
  This is a simple HTTP benchmarking program.
