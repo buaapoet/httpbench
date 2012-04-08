@@ -10,6 +10,6 @@ Vcs-Browser: http://web.buetow.org/git/?p=httpbench.git;a=summary
 
 Package: httpbench
 Architecture: i386
-Depends: libcurl3-gnutls, libc6
+Depends: ${shlibs:Depends}
 Description: Simple HTTP bencharking program
  Benchmarks HTTP servers with some features missing in ab and siege.

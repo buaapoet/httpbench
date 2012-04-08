@@ -13,10 +13,5 @@ debug:
 	gcc $(FLAGS) $(DEBUG) ./src/$(NAME).c -o $(NAME) -lcurl -lpthread
 clean:
 	sh -c '[ -d ./dest ] && rm -Rf dest; exit 0'
-astyle:
-	astyle $(NAME).c
-	rm *.orig
 deb:
 	dpkg-buildpackage
-lint:
-	lintian ../*.deb
