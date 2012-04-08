@@ -12,7 +12,7 @@ install:
 debug:
 	gcc $(FLAGS) $(DEBUG) ./src/$(NAME).c -o $(NAME) -lcurl -lpthread
 clean:
-	sh -c '[ -e ./dest ] && rm -Rf dest'
+	sh -c '[ -d ./dest ] && rm -Rf dest; exit 0'
 astyle:
 	astyle $(NAME).c
 	rm *.orig
