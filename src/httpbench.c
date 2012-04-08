@@ -4,10 +4,8 @@
 
 #include "httpbench.h"
 
-//#define VERSION "0.0.0-master"
-
 void usage(void) {
-    fprintf(stdout, "HTTP Bench: Usage:\n");
+    fprintf(stdout, "HTTP Bench Usage:\n");
     fprintf(stdout, "./bench\n");
     fprintf(stdout, "\t-u <urllistfile.txt>\n");
     fprintf(stdout, "\t-d <duration sec>\n");
