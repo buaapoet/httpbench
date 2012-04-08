@@ -1,0 +1,11 @@
+Package: httpbench
+Version: 0.0.0
+Architecture: i386
+Maintainer: Paul Buetow <paul@buetow.org>
+Installed-Size: 52
+Depends: libcurl3-gnutls, libc6
+Section: net
+Priority: optional
+Homepage: http://httpbench.buetow.org
+Description: Simple HTTP bencharking program
+ Benchmarks HTTP servers with some features missing in ab and siege.

@@ -1,5 +1,5 @@
-PACKAGE (VERSION) UNRELEASED; urgency=low
+httpbench (0.0.0) unstable; urgency=low
 
-  * Initial debian package version. 
+  * Initial Release.
 
- -- Paul Buetow <httpbench@mx.buetow.org>  Sun, 08 Apr 2012 13:45:05 +0200
+ -- Paul Buetow <paul@buetow.org>  Sun, 08 Apr 2012 15:23:53 +0200

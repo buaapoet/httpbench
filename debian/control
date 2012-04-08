@@ -1,13 +1,15 @@
 Source: httpbench
-Section: unknown
-Priority: extra
-Maintainer: Paul Buetow <httpbench@mx.buetow.org>
-Build-Depends: libcurl3-gnutls-dev 
-Standards-Version: 3.8.4
+Section: net
+Priority: optional
+Maintainer: Paul Buetow <paul@buetow.org>
+Build-Depends: debhelper (>= 8.0.0), libcurl3-gnutls-dev
+Standards-Version: 3.9.2
 Homepage: http://httpbench.buetow.org
+Vcs-Git: git://git.bueto.org/httpbench
+Vcs-Browser: http://web.buetow.org/git/?p=httpbench.git;a=summary
 
 Package: httpbench
 Architecture: i386
-Depends: libcurl3-gnutls
-Description: A simple HTTP benchmarker
- This is a simple HTTP benchmarking program.
+Depends: libcurl3-gnutls, libc6
+Description: Simple HTTP bencharking program
+ Benchmarks HTTP servers with some features missing in ab and siege.
