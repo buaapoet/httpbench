@@ -1,5 +1,5 @@
 #DEBUG=-g3 -ggdb3
-NAME=bench
+NAME=httpbench
 #FLAGS=-c -Wall -std=c99 -pedanti
 #FLAGS=-std=c99
 FLAGS=
@@ -8,13 +8,12 @@ all:
 debug:
 	gcc $(FLAGS) $(DEBUG) $(NAME).c -o $(NAME) -lcurl -lpthread
 clean:
-	rm $(NAME)
+	rm ./debian/usr/bin/$(NAME) *.deb 2>/dev/null
 test: all run-test
-run: 
-	./run.sh
-run-test: 
-	./run-test.sh
 astyle:
 	astyle $(NAME).c
 deps:
 	sudo apt-get install libcurl4-gnutls-dev
+deb: all
+	dpkg-deb --build debian
+   

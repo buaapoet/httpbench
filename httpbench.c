@@ -14,7 +14,7 @@
 #include <time.h>
 #include <unistd.h>
 
-#define VERSION "0.0.0-master"
+//#define VERSION "0.0.0-master"
 
 #define SUCCESS 0
 #define E_WRONG_USAGE 1
@@ -49,7 +49,7 @@ struct data {
 };
 
 void usage(void) {
-    fprintf(stdout, "Bench Version %s Usage:\n", VERSION);
+    fprintf(stdout, "HTTP Bench: Usage:\n");
     fprintf(stdout, "./bench\n");
     fprintf(stdout, "\t-u <urllistfile.txt>\n");
     fprintf(stdout, "\t-d <duration sec>\n");
