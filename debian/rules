@@ -1,0 +1,15 @@
+#DEBUG=-g3 -ggdb3
+NAME=httpbench
+#FLAGS=-c -Wall -std=c99 -pedanti
+#FLAGS=-std=c99
+FLAGS=
+binary: build-arch
+binary-arch: 
+	gcc $(FLAGS) $(NAME).c -o ./debian/usr/bin/$(NAME) -lcurl -lpthread
+binary-indep: 
+build: binar--arch
+clean:
+	rm ./debian/usr/bin/$(NAME) *.deb 2>/dev/null
+
+debug:
+	gcc $(FLAGS) $(DEBUG) $(NAME).c -o ./debian/usr/bin/$(NAME) -lcurl -lpthread

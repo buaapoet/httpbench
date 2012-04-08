@@ -3,12 +3,10 @@ Section: unknown
 Priority: extra
 Maintainer: Paul Buetow <httpbench@mx.buetow.org>
 Build-Depends: libcurl3-gnutls-dev 
+Standards-Version: 3.8.4
 Homepage: http://httpbench.buetow.org
 
 Package: httpbench
-Version: 0.0.0
-Section: base
-Priority: optional
 Architecture: i386
 Depends: libcurl3-gnutls
 Description: A simple HTTP benchmarker
