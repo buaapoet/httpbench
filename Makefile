@@ -11,6 +11,7 @@ install:
 	cp $(NAME) $(DESTDIR)/usr/bin
 clean:
 	test -f ./$(NAME) && rm $(NAME) || exit 0
+	test -f ./$(NAME).1 && rm $(NAME).1 || exit 0
 	test ! -z "$(DESTDIR)" && test -f $(DESTDIR)/usr/bin/$(NAME) && rm $(DESTDIR)/usr/bin/$(NAME) || exit 0
-deb:
+deb: 
 	dpkg-buildpackage
