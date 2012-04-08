@@ -12,6 +12,7 @@ clean:
 test: all run-test
 astyle:
 	astyle $(NAME).c
+	rm *.orig
 deps:
 	sudo apt-get install libcurl4-gnutls-dev
 deb: all

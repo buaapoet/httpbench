@@ -1,9 +1,15 @@
+Source: httpbench
+Section: unknown
+Priority: extra
+Maintainer: Paul Buetow <httpbench@mx.buetow.org>
+Build-Depends: libcurl3-gnutls-dev 
+Homepage: http://httpbench.buetow.org
+
 Package: httpbench
-Version: 0.0.0-0master
+Version: 0.0.0
 Section: base
 Priority: optional
 Architecture: i386
-Depends: libcurl3-gnutls (>= 7.21)
-Maintainer: Paul Buetow <httpbench@mx.buetow.org>
+Depends: libcurl3-gnutls
 Description: A simple HTTP benchmarker
  This is a simple HTTP benchmarking program.
