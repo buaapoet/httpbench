@@ -4,7 +4,7 @@ httpbench - Simple HTTP benchmarking tool
 
 =head1 SYNOPSIS
 
-httpbench -u <url> -d sec -d concurrent -r rps [-t ms] [-e expected] 
+httpbench -u <urls.txt> -d sec -d concurrent -r rps [-t ms] [-e expected] 
 
 =head1 DESCRIPTION
 

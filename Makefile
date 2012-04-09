@@ -5,6 +5,7 @@ NAME=httpbench
 #FLAGS=-std=c99
 FLAGS=
 all: documentation
+	cut -d' ' -f2 debian/changelog | head -n 1 | sed 's/(/#define VERSION "/;s/)/"/' > src/version.h
 	gcc $(FLAGS) $(DEBUG) ./src/$(NAME).c -o $(NAME) -lcurl -lpthread
 build: all
 install:
@@ -14,7 +15,7 @@ clean:
 	test -f ./$(NAME) && rm $(NAME) || exit 0
 	test ! -z "$(DESTDIR)" && test -f $(DESTDIR)/usr/bin/$(NAME) && rm $(DESTDIR)/usr/bin/$(NAME) || exit 0
 documentation:
-	pod2man --release="$(NAME) $$(cut -d' ' -f2 debian/changelog | head -n1 | sed 's/(//;s/)//')" \
+	pod2man --release="$(NAME) $$(cut -d' ' -f2 debian/changelog | head -n 1 | sed 's/(//;s/)//')" \
                        --center="User Commands" ./docs/httpbench.pod > ./docs/httpbench.1
 	pod2text ./docs/httpbench.pod > ./docs/httpbench.txt
 deb: 

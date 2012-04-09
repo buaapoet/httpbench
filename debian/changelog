@@ -1,3 +1,9 @@
+httpbench (0.1.0+nmu1) stable; urgency=low
+
+  * Add some extra versioning infos and remove some typos.
+
+ -- Paul Bütow <pb@mars.fritz.box>  Mon, 09 Apr 2012 19:18:52 +0200
+
 httpbench (0.1.0) stable; urgency=low
 
   * Initial working release.

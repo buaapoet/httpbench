@@ -2,7 +2,8 @@ NAME
     httpbench - Simple HTTP benchmarking tool
 
 SYNOPSIS
-    httpbench -u <url> -d sec -d concurrent -r rps [-t ms] [-e expected]
+    httpbench -u <urls.txt> -d sec -d concurrent -r rps [-t ms] [-e
+    expected]
 
 DESCRIPTION
     HTTP Bench is a small program for Linux, UNIX and a like written in C

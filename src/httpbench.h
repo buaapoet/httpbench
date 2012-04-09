@@ -12,6 +12,7 @@
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
+#include "version.h"
 
 #define SUCCESS 0
 #define E_WRONG_USAGE 1
