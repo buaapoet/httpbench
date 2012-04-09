@@ -1,5 +1,5 @@
 NAME
-    httpbench - Simple HTTP bencharking tool
+    httpbench - Simple HTTP benchmarking tool
 
 SYNOPSIS
     httpbench -u <url> -d sec -d concurrent -r rps [-t ms] [-e expected]
