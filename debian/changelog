@@ -1,4 +1,4 @@
-httpbench (0.1.0) unstable; urgency=low
+httpbench (0.1.0) stable; urgency=low
 
   * Initial working release.
 
