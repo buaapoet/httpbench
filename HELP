@@ -1,8 +1,0 @@
-Bench Version 0.0.0-master Usage:
-./bench
-	-u <urllistfile.txt>
-	-d <duration sec>
-	-c <concurrent>
-	-r <rps>
-	[-t <timeoutms>]
-	[-e <exptected response str>]

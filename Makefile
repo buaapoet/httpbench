@@ -1,20 +1,21 @@
 #DEBUG=-g3 -ggdb3
-NAME=bench
+DEBUG=
+NAME=httpbench
 #FLAGS=-c -Wall -std=c99 -pedanti
 #FLAGS=-std=c99
 FLAGS=
-all:
-	gcc $(FLAGS) $(NAME).c -o $(NAME) -lcurl -lpthread
-debug:
-	gcc $(FLAGS) $(DEBUG) $(NAME).c -o $(NAME) -lcurl -lpthread
+all: documentation
+	gcc $(FLAGS) $(DEBUG) ./src/$(NAME).c -o $(NAME) -lcurl -lpthread
+build: all
+install:
+	test ! -d $(DESTDIR)/usr/bin && mkdir -p $(DESTDIR)/usr/bin || exit 0
+	cp $(NAME) $(DESTDIR)/usr/bin
 clean:
-	rm $(NAME)
-test: all run-test
-run: 
-	./run.sh
-run-test: 
-	./run-test.sh
-astyle:
-	astyle $(NAME).c
-deps:
-	sudo apt-get install libcurl4-gnutls-dev
+	test -f ./$(NAME) && rm $(NAME) || exit 0
+	test ! -z "$(DESTDIR)" && test -f $(DESTDIR)/usr/bin/$(NAME) && rm $(DESTDIR)/usr/bin/$(NAME) || exit 0
+documentation:
+	pod2man --release="$(NAME) $$(cut -d' ' -f2 debian/changelog | head -n1 | sed 's/(//;s/)//')" \
+                       --center="User Commands" ./docs/httpbench.pod > ./docs/httpbench.1
+	pod2text ./docs/httpbench.pod > ./docs/httpbench.txt
+deb: 
+	dpkg-buildpackage

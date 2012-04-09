@@ -1,68 +1,19 @@
 // Small humble program for benchmarking
 // (C) 2012 Dipl.-Inform. (FH) Paul C. Buetow
-// Contact: bench@mx.buetow.org
-// See COPYING for license infos
+// For ./debian/copyright for License 
 
-#include <ctype.h>
-#include <curl/curl.h>
-#include <curl/easy.h>
-#include <curl/types.h>
-#include <pthread.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-#include <unistd.h>
+#include "httpbench.h"
 
-#define VERSION "0.0.0-devel"
-
-#define SUCCESS 0
-#define E_WRONG_USAGE 1
-#define E_MISSING_OPT_C 2
-#define E_MISSING_OPT_I 3
-#define E_OPT_ERROR 5
-#define E_OPEN_FILE 8
-
-struct data {
-    // Read only for threads
-    int i_duration_s;
-    int i_concurrent;
-    int i_timeout;
-    double d_rps_wanted;
-    char *c_urlist;
-    int i_num_urls;
-    char **pc_urls;
-    char *c_expected;
-
-    // Read/write for threads
-    pthread_mutex_t mutex;
-    int i_exit;
-    double d_time_min;
-    double d_time_max;
-    double d_time_avg;
-    unsigned int ui_curl_errors;
-    unsigned int ui_parse_errors;
-    unsigned int ui_timeout_exceeded;
-    unsigned int ui_count;
-    unsigned int ui_count_total;
-    double d_sleep_us;
-};
-
-void usage(void) {
-    fprintf(stdout, "Bench Version %s Usage:\n", VERSION);
-    fprintf(stdout, "./bench\n");
-    fprintf(stdout, "\t-u <urllistfile.txt>\n");
-    fprintf(stdout, "\t-d <duration sec>\n");
-    fprintf(stdout, "\t-c <concurrent>\n");
-    fprintf(stdout, "\t-r <rps>\n");
-    fprintf(stdout, "\t[-t <timeoutms>]\n");
-    fprintf(stdout, "\t[-e <exptected response str>]\n");
+void synopsis(void) {
+    printf("Synopsis:\n");
+    printf("httpbench -u <url> -d sec -d concurrent -r rps [-t ms] [-e expected]\n"); 
+    printf("Please also consult the httpbench manual page\n");
 }
 
 void checkarg_c(char c_name, char *c_arg) {
     if (c_arg == NULL) {
         fprintf(stderr, "Missing mandatory value for option '%c'\n", c_name);
-        usage();
+        synopsis();
         exit(E_MISSING_OPT_C);
     }
 }
@@ -70,7 +21,7 @@ void checkarg_c(char c_name, char *c_arg) {
 void checkarg_i(char c_name, int i_arg) {
     if (i_arg == -1) {
         fprintf(stderr, "Missing mandatory value for option '%c'\n", c_name);
-        usage();
+        synopsis();
         exit(E_MISSING_OPT_I);
     }
 }
@@ -339,7 +290,7 @@ int main(int i_argc, char **c_argv) {
             d.i_timeout = atoi(optarg);
             break;
         case 'h':
-            usage();
+            synopsis();
             exit(SUCCESS);
             break;
         case '?':
@@ -360,7 +311,7 @@ int main(int i_argc, char **c_argv) {
 
             exit(E_OPT_ERROR);
         default:
-            usage();
+            synopsis();
             exit(E_WRONG_USAGE);
             break;
         }
