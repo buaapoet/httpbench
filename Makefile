@@ -6,6 +6,7 @@ NAME=httpbench
 FLAGS=
 all: documentation
 	gcc $(FLAGS) $(DEBUG) ./src/$(NAME).c -o $(NAME) -lcurl -lpthread
+build: all
 install:
 	test ! -d $(DESTDIR)/usr/bin && mkdir -p $(DESTDIR)/usr/bin || exit 0
 	cp $(NAME) $(DESTDIR)/usr/bin
