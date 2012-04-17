@@ -2,7 +2,7 @@ NAME
     httpbench - Simple HTTP benchmarking tool
 
 SYNOPSIS
-    httpbench -u <urls.txt> -d sec -d concurrent -r rps [-t ms] [-e
+    httpbench -u <urls.txt> -d sec -c concurrent -r rps [-t ms] [-e
     expected]
 
 DESCRIPTION
@@ -31,10 +31,6 @@ DESCRIPTION
                 actually not interrupt any requests. It's there just for
                 statistical reasons. E.g. how many requests take longer than
                 x milliseconds?
-
-    "-d seconds"
-                Duration of the benchmark in seconds. E.g. 300 for a five
-                minutes benchmark.
 
     "-e expectedresponsestr"
                 The expected response of a request. E.g. all requests should
