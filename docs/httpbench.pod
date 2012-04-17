@@ -4,7 +4,7 @@ httpbench - Simple HTTP benchmarking tool
 
 =head1 SYNOPSIS
 
-httpbench -u <urls.txt> -d sec -d concurrent -r rps [-t ms] [-e expected] 
+httpbench -u <urls.txt> -d sec -c concurrent -r rps [-t ms] [-e expected] 
 
 =head1 DESCRIPTION
 
@@ -41,10 +41,6 @@ Requests per second wanted for the benchmark.
 =item C<-t timeoutms>
 
 Timeout in milliseconds for each request. This timeout will actually not interrupt any requests. It's there just for statistical reasons. E.g. how many requests take longer than x milliseconds?
-
-=item C<-d seconds>
-
-Duration of the benchmark in seconds. E.g. 300 for a five minutes benchmark.
 
 =item C<-e expectedresponsestr>
 

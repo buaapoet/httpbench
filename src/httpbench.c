@@ -6,7 +6,7 @@
 
 void synopsis(void) {
     printf("httpbench %s synopsis:\n", VERSION);
-    printf("httpbench -u <urls.txt> -d sec -d concurrent -r rps [-t ms] [-e expected]\n"); 
+    printf("httpbench -u <urls.txt> -d sec -c concurrent -r rps [-t ms] [-e expected]\n"); 
     printf("Please also consult the httpbench manual page\n");
 }
 
