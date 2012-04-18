@@ -1,12 +1,12 @@
 // Small humble program for benchmarking
 // (C) 2012 Dipl.-Inform. (FH) Paul C. Buetow
-// For ./debian/copyright for License 
+// Look in ./debian/copyright for license info
 
 #include "httpbench.h"
 
 void synopsis(void) {
     printf("httpbench %s synopsis:\n", VERSION);
-    printf("httpbench -u <urls.txt> -d sec -c concurrent -r rps [-t ms] [-e expected]\n"); 
+    printf("httpbench -u <urlfile or url> -d sec -c concurrent -r rps [-t ms] [-e expected]\n"); 
     printf("Please also consult the httpbench manual page\n");
 }
 
@@ -182,9 +182,14 @@ void* request_thread(void *p) {
             res = curl_easy_perform(p_curl);
 
             if (CURLE_OK == res) {
-                if (NULL == strstr(c_response, p_data->c_expected)) {
+                if (strlen(c_response) < 1) { 
                     fprintf(stderr, "While requesting %s:\n", p_data->pc_urls[i_which_url]);
-                    fprintf(stderr, "Expected response %s but received %s", p_data->c_expected, c_response);
+                    fprintf(stderr, "Expected response %s but received empty string\n", p_data->c_expected);
+                    ++ui_parse_errors;
+
+                } else if (NULL == strstr(c_response, p_data->c_expected)) {
+                    fprintf(stderr, "While requesting %s:\n", p_data->pc_urls[i_which_url]);
+                    fprintf(stderr, "Expected response %s but received %s\n", p_data->c_expected, c_response);
                     ++ui_parse_errors;
                 }
 
@@ -251,6 +256,17 @@ void* request_thread(void *p) {
     }
 
     return NULL;
+}
+
+int is_url(char *c_str) {
+    if (strlen(c_str)) {
+        if (strncmp("http://", c_str, 7) == 0)
+            return 1;
+        if (strncmp("https://", c_str, 8) == 0)
+            return 1;
+    }
+
+    return 0;
 }
 
 int main(int i_argc, char **c_argv) {
