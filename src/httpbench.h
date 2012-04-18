@@ -27,7 +27,7 @@ struct data {
     int i_concurrent;
     int i_timeout;
     double d_rps_wanted;
-    char *c_urlist;
+    char *c_urlparam;
     int i_num_urls;
     char **pc_urls;
     char *c_expected;

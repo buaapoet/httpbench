@@ -6,7 +6,7 @@
 
 void synopsis(void) {
     printf("httpbench %s synopsis:\n", VERSION);
-    printf("httpbench -u <urlfile or url> -d sec -c concurrent -r rps [-t ms] [-e expected]\n"); 
+    printf("httpbench -u <url or urllist.txt> -d sec -c concurrent -r rps [-t ms] [-e expected]\n"); 
     printf("Please also consult the httpbench manual page\n");
 }
 
@@ -274,12 +274,10 @@ int main(int i_argc, char **c_argv) {
     pthread_t *pt_threads;
     pthread_t t_timer;
     int i_threads;
-    FILE *fh;
-    char c_buff[4096];
     int i_opt;
 
     d.c_expected = "";
-    d.c_urlist = NULL;
+    d.c_urlparam = NULL;
     d.d_rps_wanted = -1;
     d.i_concurrent = -1;
     d.i_duration_s = -1;
@@ -291,7 +289,7 @@ int main(int i_argc, char **c_argv) {
             d.c_expected = optarg;
             break;
         case 'u':
-            d.c_urlist = optarg;
+            d.c_urlparam = optarg;
             break;
         case 'r':
             d.d_rps_wanted = (double) atoi(optarg);
@@ -333,7 +331,7 @@ int main(int i_argc, char **c_argv) {
         }
     }
 
-    checkarg_c('u', d.c_urlist);
+    checkarg_c('u', d.c_urlparam);
     checkarg_i('r', d.d_rps_wanted);
     checkarg_i('c', d.i_concurrent);
     checkarg_i('d', d.i_duration_s);
@@ -352,22 +350,35 @@ int main(int i_argc, char **c_argv) {
 
     pthread_mutex_init(&d.mutex, NULL);
 
-    // Open urllistfile
-    fh = fopen(d.c_urlist, "r");
-    if (fh == NULL) {
-        fprintf(stdout, "Could not open file %s\n", d.c_urlist);
-        exit(E_OPEN_FILE);
-    }
-
-    d.i_num_urls = 0;
-    while (fgets(c_buff,sizeof(c_buff),fh) != NULL) {
-        int i_len = strlen(c_buff);
+    if (is_url(d.c_urlparam) == 1) {
+        int i_len = strlen(d.c_urlparam);
         d.pc_urls[d.i_num_urls] = calloc(i_len, sizeof(char));
-        strncpy(d.pc_urls[d.i_num_urls], c_buff, i_len-1);
+        strncpy(d.pc_urls[d.i_num_urls], d.c_urlparam, i_len-1);
         d.pc_urls[d.i_num_urls][i_len-1] = '\0';
-
         ++d.i_num_urls;
-        d.pc_urls = realloc(d.pc_urls, (d.i_num_urls + 1) * sizeof(char*));
+
+    } else {
+        // Open urlparamfile
+        char c_buff[4096];
+        FILE *fh = fopen(d.c_urlparam, "r");
+
+        if (fh == NULL) {
+            fprintf(stdout, "Could not open file %s\n", d.c_urlparam);
+            exit(E_OPEN_FILE);
+        }
+        
+        d.i_num_urls = 0;
+        while (fgets(c_buff,sizeof(c_buff),fh) != NULL) {
+            int i_len = strlen(c_buff);
+            d.pc_urls[d.i_num_urls] = calloc(i_len, sizeof(char));
+            strncpy(d.pc_urls[d.i_num_urls], c_buff, i_len-1);
+            d.pc_urls[d.i_num_urls][i_len-1] = '\0';
+        
+            ++d.i_num_urls;
+            d.pc_urls = realloc(d.pc_urls, (d.i_num_urls + 1) * sizeof(char*));
+        }
+
+        fclose(fh);
     }
 
     pt_threads = (pthread_t*) calloc(d.i_concurrent, sizeof(pthread_t));
@@ -384,11 +395,11 @@ int main(int i_argc, char **c_argv) {
     for (i_threads = 0; i_threads < d.i_concurrent; ++i_threads)
         pthread_join(pt_threads[i_threads], NULL);
 
-    fprintf(stdout, "\nTOTAL STATS using duration:%d concurrent:%d timeout:%d urllist:%s\n",
+    fprintf(stdout, "\nTOTAL STATS using duration:%d concurrent:%d timeout:%d urlparam:%s\n",
             d.i_duration_s,
             d.i_concurrent,
             d.i_timeout,
-            d.c_urlist);
+            d.c_urlparam);
     print_stats(d.ui_count_total,
                 d.i_duration_s,
                 d.d_time_max,
