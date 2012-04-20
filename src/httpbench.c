@@ -345,6 +345,7 @@ int main(int i_argc, char **c_argv) {
     d.ui_count = 0;
     d.ui_count_total = 0;
     d.d_sleep_us = 1000000;
+    d.i_num_urls = 0;
 
     d.pc_urls = calloc(1, sizeof(char*));
 
