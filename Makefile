@@ -1,5 +1,5 @@
-#DEBUG=-g3 -ggdb3
-DEBUG=
+DEBUG=-g3 -ggdb3
+#DEBUG=
 NAME=httpbench
 #FLAGS=-c -Wall -std=c99 -pedanti
 #FLAGS=-std=c99
