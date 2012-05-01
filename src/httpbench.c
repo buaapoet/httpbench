@@ -352,7 +352,7 @@ int main(int i_argc, char **c_argv) {
     pthread_mutex_init(&d.mutex, NULL);
 
     if (is_url(d.c_urlparam) == 1) {
-        int i_len = strlen(d.c_urlparam);
+        int i_len = strlen(d.c_urlparam) + 1;
         d.pc_urls[d.i_num_urls] = calloc(i_len, sizeof(char));
         strncpy(d.pc_urls[d.i_num_urls], d.c_urlparam, i_len-1);
         d.pc_urls[d.i_num_urls][i_len-1] = '\0';
