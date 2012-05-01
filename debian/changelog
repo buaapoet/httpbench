@@ -1,3 +1,15 @@
+httpbench (0.2.1) stable; urgency=low
+
+  * Minor bugfix release
+
+ -- Paul Buetow <paul@buetow.org>  Fri, 20 Apr 2012 18:03:48 +0200
+
+httpbench (0.2.0) stable; urgency=low
+
+  * -u also understands a single url (see manpage)
+
+ -- Paul Bütow <paul@buetow.org>  Wed, 18 Apr 2012 09:02:14 +0200
+
 httpbench (0.1.0+nmu1) stable; urgency=low
 
   * Add some extra versioning infos and remove some typos.
