@@ -12,7 +12,7 @@
                             p_data->d_rps_wanted, \
                             p_data->d_time_max, \
                             p_data->d_time_min, \
-                            p_data->d_time_avg, \
+                            1000 * p_data->d_time_avg / (double) p_data->ui_time_avg_count, \
                             p_data->ui_timeout_exceeded, \
                             p_data->ui_curl_errors, \
                             p_data->ui_parse_errors);
@@ -51,17 +51,17 @@ void print_stats(
     unsigned int ui_curl_errors,
     unsigned int ui_parse_errors) {
 
-    fprintf(stdout, "#%d time:%d/%d rps:%d|%.1f exceeded:%d (%.3f%%) max:%0.4f min:%0.4f avg:%0.4f curlerr:%d (%.3f%%) parserr:%d (%.3f%%)\n",
+    fprintf(stdout, "#%d time:%d/%d rps:%.1f|%d exceeded:%d (%.3f%%) max:%0.4f min:%0.4f avg:%0.4f curlerr:%d (%.3f%%) parserr:%d (%.3f%%)\n",
             ui_count,
             i_elapsed_time,
             i_wanted_time,
-            (int) d_rps_wanted,
             ((double) ui_count/(double) i_elapsed_time),
+            (int) d_rps_wanted,
             ui_timeout_exceeded,
             ((double) ui_timeout_exceeded)/(((double) ui_count)/100),
             d_time_max,
             d_time_min,
-            d_time_avg / (double) ui_count,
+            d_time_avg,
             ui_curl_errors,
             ((double) ui_curl_errors)/(((double) ui_count)/100),
             ui_parse_errors,
@@ -173,7 +173,8 @@ void* request_thread(void *p) {
         double d_val, d_time_min = 9999999999, d_time_max = -1,
                       d_timeout = (double) p_data->i_timeout / (double) 1000,
                       d_time_avg = 0;
-        unsigned int ui_count = 0, ui_curl_errors = 0, ui_timeout_exceeded = 0, ui_parse_errors = 0;
+        unsigned int ui_count = 0, ui_curl_errors = 0, ui_timeout_exceeded = 0, ui_parse_errors = 0,
+                     ui_time_avg_count = 0;
 
         for (;; ++ui_count) {
             i_which_url = (i_which_url+1) % p_data->i_num_urls;
@@ -205,6 +206,7 @@ void* request_thread(void *p) {
                     if (d_val < d_time_min)
                         d_time_min = d_val;
 
+                    ++ui_time_avg_count;
                     d_time_avg += d_val;
                 } else {
                     char* c_error = calloc(1024, sizeof(char));
@@ -243,7 +245,11 @@ void* request_thread(void *p) {
             p_data->ui_timeout_exceeded += ui_timeout_exceeded;
             ui_timeout_exceeded = 0;
 
-            //ui_count = 0;
+            p_data->d_time_avg += d_time_avg / 1000;
+            d_time_avg = 0;
+
+            p_data->ui_time_avg_count += ui_time_avg_count;
+            ui_time_avg_count = 0;
 
             if (p_data->i_exit)
                 break;
@@ -254,7 +260,7 @@ void* request_thread(void *p) {
             usleep((unsigned int)d_sleep_us);
         }
 
-        p_data->d_time_avg += d_time_avg;
+        usleep((unsigned int)d_sleep_us);
         pthread_mutex_unlock(&p_data->mutex);
 
         curl_easy_cleanup(p_curl);
@@ -344,6 +350,8 @@ int main(int i_argc, char **c_argv) {
     d.i_exit = 0;
     d.d_time_min = 999999;
     d.d_time_max = 0;
+    d.d_time_avg = 0;
+    d.ui_time_avg_count = 0;
     d.ui_timeout_exceeded = 0;
     d.ui_curl_errors = 0;
     d.ui_parse_errors = 0;

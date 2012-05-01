@@ -38,6 +38,7 @@ struct data {
     double d_time_min;
     double d_time_max;
     double d_time_avg;
+    unsigned int ui_time_avg_count;
     unsigned int ui_curl_errors;
     unsigned int ui_parse_errors;
     unsigned int ui_timeout_exceeded;
@@ -57,7 +58,7 @@ void print_stats(
     double d_rps_wanted,
     double d_time_max,
     double d_time_min,
-    double d_time_avg,
+    double d_time_avg_total,
     unsigned int ui_timeout_exceeded,
     unsigned int ui_curl_errors,
     unsigned int ui_parse_errors);
