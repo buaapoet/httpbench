@@ -118,10 +118,10 @@ void* timer_thread(void *p) {
                 double d_diff = (d_rps - p_data->d_rps_wanted);
                 p_data->d_sleep_us = sleep_us(p_data->d_sleep_us, d_rps, p_data->d_rps_wanted, &d_perc);
 
-                fprintf(stdout, "RPS - %d wanted:%d thread_sleep_us:%0.3f sleep_adjust:%0.3f time:%d/%d\n",
+                fprintf(stdout, "RPS - %d wanted:%d adjust:%0.3f time:%d/%d\n",
                         (int) d_rps,
                         (int) p_data->d_rps_wanted,
-                        p_data->d_sleep_us, d_perc,
+                        d_perc,
                         (int) t_elapsed_total,
                         p_data->i_duration_s);
 
@@ -131,20 +131,19 @@ void* timer_thread(void *p) {
                 double d_diff = (p_data->d_rps_wanted - d_rps);
                 p_data->d_sleep_us = sleep_us(p_data->d_sleep_us, d_rps, p_data->d_rps_wanted, &d_perc);
 
-                fprintf(stdout, "RPS + %d wanted:%d thread_sleep_us:%0.3f sleep_adjust:%0.3f time:%d/%d\n",
+                fprintf(stdout, "RPS + %d wanted:%d adjust:%0.3f time:%d/%d\n",
                         (int) d_rps,
                         (int) p_data->d_rps_wanted,
-                        p_data->d_sleep_us, d_perc,
+                        d_perc,
                         (int) t_elapsed_total,
                         p_data->i_duration_s);
 
                 flag = 1;
 
             } else {
-                fprintf(stdout, "RPS = %d wanted:%d thread_sleep_us:%0.3f time:%d/%d\n",
+                fprintf(stdout, "RPS = %d wanted:%d time:%d/%d\n",
                         (int) d_rps,
                         (int) p_data->d_rps_wanted,
-                        p_data->d_sleep_us,
                         (int) t_elapsed_total,
                         p_data->i_duration_s);
             }
