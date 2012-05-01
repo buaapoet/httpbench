@@ -4,7 +4,7 @@ NAME=httpbench
 #FLAGS=-c -Wall -std=c99 -pedanti
 #FLAGS=-std=c99
 FLAGS=
-all: documentation
+all: documentation ctags
 	cut -d' ' -f2 debian/changelog | head -n 1 | sed 's/(/#define VERSION "/;s/)/"/' > src/version.h
 	gcc $(FLAGS) $(DEBUG) ./src/$(NAME).c -o $(NAME) -lcurl -lpthread
 build: all
@@ -21,3 +21,6 @@ documentation:
 	pod2text ./docs/httpbench.pod > ./docs/httpbench.txt
 deb: 
 	dpkg-buildpackage
+ctags:
+	# Generating Source-Tags for Vim 
+	ctags `find . -name '*.c'`

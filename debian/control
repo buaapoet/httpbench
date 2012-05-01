@@ -2,7 +2,7 @@ Source: httpbench
 Section: net
 Priority: optional
 Maintainer: Paul Buetow <paul@buetow.org>
-Build-Depends: debhelper (>= 8.0.0), libcurl3-gnutls-dev, perl
+Build-Depends: debhelper (>= 8.0.0), libcurl3-gnutls-dev, perl, exuberant-ctags
 Standards-Version: 3.9.2
 Homepage: http://httpbench.buetow.org
 Vcs-Git: git://git.bueto.org/httpbench
