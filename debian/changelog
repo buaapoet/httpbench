@@ -1,3 +1,9 @@
+httpbench (0.2.1.1) stable; urgency=low
+
+  * Bugfix release. Fixes bug on parsing url.
+
+ -- Paul Bütow <pb@mars.fritz.box>  Tue, 01 May 2012 20:25:24 +0200
+
 httpbench (0.2.1) stable; urgency=low
 
   * Minor bugfix release
