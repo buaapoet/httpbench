@@ -14,11 +14,6 @@ install:
 clean:
 	test -f ./$(NAME) && rm $(NAME) || exit 0
 	test ! -z "$(DESTDIR)" && test -f $(DESTDIR)/usr/bin/$(NAME) && rm $(DESTDIR)/usr/bin/$(NAME) || exit 0
-clean-top:
-	rm ../$(NAME)_*.tar.gz
-	rm ../$(NAME)_*.dsc
-	rm ../$(NAME)_*.changes
-	rm ../$(NAME)_*.deb
 clean-all: clean clean-top
 doc: documentation
 documentation:
@@ -34,3 +29,13 @@ style:
 	astyle `find ./src -name '*.c'`
 	astyle `find ./src -name '*.h'`
 	find ./src -name '*.orig' -delete
+clean-top:
+	rm ../$(NAME)_*.tar.gz
+	rm ../$(NAME)_*.dsc
+	rm ../$(NAME)_*.changes
+	rm ../$(NAME)_*.deb
+mv-top:
+	mv ../$(NAME)_*.tar.gz /tmp
+	mv ../$(NAME)_*.dsc /tmp
+	mv ../$(NAME)_*.changes /tmp
+	mv ../$(NAME)_*.deb /tmp
