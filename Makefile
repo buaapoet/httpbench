@@ -19,6 +19,7 @@ clean-top:
 	rm ../$(NAME)_*.dsc
 	rm ../$(NAME)_*.changes
 	rm ../$(NAME)_*.deb
+clean-all: clean clean-top
 doc: documentation
 documentation:
 	pod2man --release="$(NAME) $$(cut -d' ' -f2 debian/changelog | head -n 1 | sed 's/(//;s/)//')" \
