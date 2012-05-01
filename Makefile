@@ -30,3 +30,7 @@ deb:
 ctags:
 	# Generating Source-Tags for Vim 
 	ctags `find . -name '*.c'`
+style:
+	astyle `find ./src -name '*.c'`
+	astyle `find ./src -name '*.h'`
+	find ./src -name '*.orig' -delete
