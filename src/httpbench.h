@@ -1,6 +1,6 @@
 // Small humble program for benchmarking
 // (C) 2012 Dipl.-Inform. (FH) Paul C. Buetow
-// For ./debian/copyright for License 
+// For ./debian/copyright for License
 
 #include <ctype.h>
 #include <curl/curl.h>
@@ -49,10 +49,12 @@ struct data {
 void usage(void);
 void checkarg_c(char c_name, char *c_arg);
 void checkarg_i(char c_name, int i_arg);
-int is_url(char *c_str); 
+int is_url(char *c_str);
 void print_stats(
     unsigned int ui_count,
     int i_elapsed_time,
+    int i_wanted_time,
+    double d_rps_wanted,
     double d_time_max,
     double d_time_min,
     double d_time_avg,

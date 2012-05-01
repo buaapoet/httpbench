@@ -4,9 +4,22 @@
 
 #include "httpbench.h"
 
+// "Private macro" (only used in this file, so not declared in .h)
+#define _PRINT_STATS \
+                print_stats(p_data->ui_count_total, \
+                            (int) t_elapsed_total, \
+                            p_data->i_duration_s, \
+                            p_data->d_rps_wanted, \
+                            p_data->d_time_max, \
+                            p_data->d_time_min, \
+                            p_data->d_time_avg, \
+                            p_data->ui_timeout_exceeded, \
+                            p_data->ui_curl_errors, \
+                            p_data->ui_parse_errors);
+
 void synopsis(void) {
     printf("httpbench %s synopsis:\n", VERSION);
-    printf("httpbench -u <url or urllist.txt> -d sec -c concurrent -r rps [-t ms] [-e expected]\n"); 
+    printf("httpbench -u <url or urllist.txt> -d sec -c concurrent -r rps [-t ms] [-e expected]\n");
     printf("Please also consult the httpbench manual page\n");
 }
 
@@ -29,6 +42,8 @@ void checkarg_i(char c_name, int i_arg) {
 void print_stats(
     unsigned int ui_count,
     int i_elapsed_time,
+    int i_wanted_time,
+    double d_rps_wanted,
     double d_time_max,
     double d_time_min,
     double d_time_avg,
@@ -36,16 +51,17 @@ void print_stats(
     unsigned int ui_curl_errors,
     unsigned int ui_parse_errors) {
 
-    fprintf(stdout, "(thread %d) count:%d elapsed:%d (%.1f rps), max:%0.6f min:%0.6f avg:%0.6f timeout_exceeded:%d (%.3f%%) curl_errors:%d (%.3f%%) parse_errors:%d (%.3f%%)\n",
-            (int) pthread_self(),
+    fprintf(stdout, "#%d time:%d/%d rps:%d|%.1f exceeded:%d (%.3f%%) max:%0.4f min:%0.4f avg:%0.4f curlerr:%d (%.3f%%) parserr:%d (%.3f%%)\n",
             ui_count,
             i_elapsed_time,
+            i_wanted_time,
+            (int) d_rps_wanted,
             ((double) ui_count/(double) i_elapsed_time),
+            ui_timeout_exceeded,
+            ((double) ui_timeout_exceeded)/(((double) ui_count)/100),
             d_time_max,
             d_time_min,
             d_time_avg / (double) ui_count,
-            ui_timeout_exceeded,
-            ((double) ui_timeout_exceeded)/(((double) ui_count)/100),
             ui_curl_errors,
             ((double) ui_curl_errors)/(((double) ui_count)/100),
             ui_parse_errors,
@@ -118,34 +134,18 @@ void* timer_thread(void *p) {
                 double d_diff = (d_rps - p_data->d_rps_wanted);
                 p_data->d_sleep_us = sleep_us(p_data->d_sleep_us, d_rps, p_data->d_rps_wanted, &d_perc);
 
-                fprintf(stdout, "RPS - %d wanted:%d adjust:%0.3f time:%d/%d\n",
-                        (int) d_rps,
-                        (int) p_data->d_rps_wanted,
-                        d_perc,
-                        (int) t_elapsed_total,
-                        p_data->i_duration_s);
-
+                _PRINT_STATS
                 flag = 1;
 
             } else if (d_rps < p_data->d_rps_wanted) {
                 double d_diff = (p_data->d_rps_wanted - d_rps);
                 p_data->d_sleep_us = sleep_us(p_data->d_sleep_us, d_rps, p_data->d_rps_wanted, &d_perc);
 
-                fprintf(stdout, "RPS + %d wanted:%d adjust:%0.3f time:%d/%d\n",
-                        (int) d_rps,
-                        (int) p_data->d_rps_wanted,
-                        d_perc,
-                        (int) t_elapsed_total,
-                        p_data->i_duration_s);
-
+                _PRINT_STATS
                 flag = 1;
 
             } else {
-                fprintf(stdout, "RPS = %d wanted:%d time:%d/%d\n",
-                        (int) d_rps,
-                        (int) p_data->d_rps_wanted,
-                        (int) t_elapsed_total,
-                        p_data->i_duration_s);
+                _PRINT_STATS
             }
 
             if (flag == 1) {
@@ -178,10 +178,11 @@ void* request_thread(void *p) {
         for (;; ++ui_count) {
             i_which_url = (i_which_url+1) % p_data->i_num_urls;
             curl_easy_setopt(p_curl, CURLOPT_URL, p_data->pc_urls[i_which_url]);
+            //printf("URL:%s\n",p_data->pc_urls[i_which_url]);
             res = curl_easy_perform(p_curl);
 
             if (CURLE_OK == res) {
-                if (strlen(c_response) < 1) { 
+                if (strlen(c_response) < 1) {
                     fprintf(stderr, "While requesting %s:\n", p_data->pc_urls[i_which_url]);
                     fprintf(stderr, "Expected response %s but received empty string\n", p_data->c_expected);
                     ++ui_parse_errors;
@@ -195,10 +196,8 @@ void* request_thread(void *p) {
                 res = curl_easy_getinfo(p_curl, CURLINFO_TOTAL_TIME, &d_val);
 
                 if ((CURLE_OK == res) && (d_val > 0)) {
-
-                    if (d_timeout > 0 && d_val > d_timeout) {
+                    if (d_timeout > 0 && d_val > d_timeout) 
                         ++ui_timeout_exceeded;
-                    }
 
                     if (d_val > d_time_max)
                         d_time_max = d_val;
@@ -225,30 +224,37 @@ void* request_thread(void *p) {
                 c_response = NULL;
             }
 
-            if (ui_count % 10000 == 0 && ui_count > 0)
-                print_stats(ui_count, time(NULL) - t1, d_time_max, d_time_min, d_time_avg, ui_timeout_exceeded, ui_curl_errors, ui_parse_errors);
             pthread_mutex_lock(&p_data->mutex);
+
             ++p_data->ui_count;
-            d_sleep_us = p_data->d_sleep_us;
+            ++p_data->ui_count_total;
+
+            if (p_data->d_time_min > d_time_min)
+                p_data->d_time_min = d_time_min;
+            if (p_data->d_time_max < d_time_max)
+                p_data->d_time_max = d_time_max;
+
+            p_data->ui_curl_errors += ui_curl_errors;
+            ui_curl_errors = 0;
+
+            p_data->ui_parse_errors += ui_parse_errors;
+            ui_parse_errors = 0;
+
+            p_data->ui_timeout_exceeded += ui_timeout_exceeded;
+            ui_timeout_exceeded = 0;
+
+            //ui_count = 0;
+
             if (p_data->i_exit)
                 break;
-            pthread_mutex_unlock(&p_data->mutex);
 
+            d_sleep_us = p_data->d_sleep_us;
+            pthread_mutex_unlock(&p_data->mutex);
 
             usleep((unsigned int)d_sleep_us);
         }
 
-        if (p_data->d_time_min > d_time_min)
-            p_data->d_time_min = d_time_min;
-        if (p_data->d_time_max < d_time_max)
-            p_data->d_time_max = d_time_max;
-
-        p_data->ui_curl_errors += ui_curl_errors;
-        p_data->ui_parse_errors += ui_parse_errors;
-        p_data->ui_timeout_exceeded += ui_timeout_exceeded;
-        p_data->ui_count_total += ui_count + 1;
         p_data->d_time_avg += d_time_avg;
-
         pthread_mutex_unlock(&p_data->mutex);
 
         curl_easy_cleanup(p_curl);
@@ -351,7 +357,7 @@ int main(int i_argc, char **c_argv) {
     pthread_mutex_init(&d.mutex, NULL);
 
     if (is_url(d.c_urlparam) == 1) {
-        int i_len = strlen(d.c_urlparam);
+        int i_len = strlen(d.c_urlparam) + 1;
         d.pc_urls[d.i_num_urls] = calloc(i_len, sizeof(char));
         strncpy(d.pc_urls[d.i_num_urls], d.c_urlparam, i_len-1);
         d.pc_urls[d.i_num_urls][i_len-1] = '\0';
@@ -366,14 +372,14 @@ int main(int i_argc, char **c_argv) {
             fprintf(stdout, "Could not open file %s\n", d.c_urlparam);
             exit(E_OPEN_FILE);
         }
-        
+
         d.i_num_urls = 0;
         while (fgets(c_buff,sizeof(c_buff),fh) != NULL) {
             int i_len = strlen(c_buff);
             d.pc_urls[d.i_num_urls] = calloc(i_len, sizeof(char));
             strncpy(d.pc_urls[d.i_num_urls], c_buff, i_len-1);
             d.pc_urls[d.i_num_urls][i_len-1] = '\0';
-        
+
             ++d.i_num_urls;
             d.pc_urls = realloc(d.pc_urls, (d.i_num_urls + 1) * sizeof(char*));
         }
@@ -395,13 +401,15 @@ int main(int i_argc, char **c_argv) {
     for (i_threads = 0; i_threads < d.i_concurrent; ++i_threads)
         pthread_join(pt_threads[i_threads], NULL);
 
-    fprintf(stdout, "\nTOTAL STATS using duration:%d concurrent:%d timeout:%d urlparam:%s\n",
+    fprintf(stdout, "\nEnd stats using duration:%d concurrent:%d timeout:%d urlparam:%s:\n",
             d.i_duration_s,
             d.i_concurrent,
             d.i_timeout,
             d.c_urlparam);
     print_stats(d.ui_count_total,
                 d.i_duration_s,
+                d.i_duration_s,
+                d.d_rps_wanted,
                 d.d_time_max,
                 d.d_time_min,
                 d.d_time_avg,
