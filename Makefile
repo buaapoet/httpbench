@@ -14,6 +14,7 @@ install:
 clean:
 	test -f ./$(NAME) && rm $(NAME) || exit 0
 	test ! -z "$(DESTDIR)" && test -f $(DESTDIR)/usr/bin/$(NAME) && rm $(DESTDIR)/usr/bin/$(NAME) || exit 0
+doc: documentation
 documentation:
 	pod2man --release="$(NAME) $$(cut -d' ' -f2 debian/changelog | head -n 1 | sed 's/(//;s/)//')" \
                        --center="User Commands" ./docs/httpbench.pod > ./docs/httpbench.1
