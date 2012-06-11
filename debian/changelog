@@ -1,3 +1,9 @@
+httpbench (0.2.99) stable; urgency=low
+
+  * Foo
+
+ -- Paul Bütow <pb@Debian-60-squeeze-64-minimal>  Mon, 11 Jun 2012 22:08:33 +0200
+
 httpbench (0.2.1.1) stable; urgency=low
 
   * Bugfix release. Fixes bug on parsing url.

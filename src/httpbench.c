@@ -122,6 +122,15 @@ void* timer_thread(void *p) {
             break;
         }
 
+        if (QUIT) {
+            pthread_mutex_lock(&p_data->mutex);
+            p_data->i_exit = 1;
+            pthread_mutex_unlock(&p_data->mutex);
+
+            break;
+        }
+
+
         t_elapsed = t_now - t_start;
 
         pthread_mutex_lock(&p_data->mutex);
@@ -269,7 +278,12 @@ void* request_thread(void *p) {
     return NULL;
 }
 
-int is_url(char *c_str) {
+void handle_signal() {
+    fprintf(stderr, "Aborting benchmark\n");
+    QUIT = 1;
+}
+
+int is_http_url(char *c_str) {
     if (strlen(c_str)) {
         if (strncmp("http://", c_str, 7) == 0)
             return 1;
@@ -347,7 +361,7 @@ int main(int i_argc, char **c_argv) {
     checkarg_i('c', d.i_concurrent);
     checkarg_i('d', d.i_duration_s);
 
-    d.i_exit = 0;
+    d.i_exit = QUIT = 0;
     d.d_time_min = 999999;
     d.d_time_max = 0;
     d.d_time_avg = 0;
@@ -364,7 +378,7 @@ int main(int i_argc, char **c_argv) {
 
     pthread_mutex_init(&d.mutex, NULL);
 
-    if (is_url(d.c_urlparam) == 1) {
+    if (is_http_url(d.c_urlparam) == 1) {
         int i_len = strlen(d.c_urlparam) + 1;
         d.pc_urls[d.i_num_urls] = calloc(i_len, sizeof(char));
         strncpy(d.pc_urls[d.i_num_urls], d.c_urlparam, i_len-1);
@@ -405,6 +419,10 @@ int main(int i_argc, char **c_argv) {
         fprintf(stdout, "Starting thread %d\n", i_threads);
         pthread_create(&pt_threads[i_threads], NULL, request_thread, (void*) &d);
     }
+
+    signal(SIGHUP, handle_signal);
+    signal(SIGINT, handle_signal);
+    signal(SIGQUIT, handle_signal);
 
     for (i_threads = 0; i_threads < d.i_concurrent; ++i_threads)
         pthread_join(pt_threads[i_threads], NULL);
