@@ -5,7 +5,8 @@
 #include <ctype.h>
 #include <curl/curl.h>
 #include <curl/easy.h>
-#include <curl/types.h>
+// Obsolete since Debian Wheezy
+//#include <curl/types.h>
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
