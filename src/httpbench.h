@@ -23,28 +23,28 @@
 #define E_OPEN_FILE 8
 
 struct data {
-    // Read only for threads
-    int i_duration_s;
-    int i_concurrent;
-    int i_timeout;
-    double d_rps_wanted;
-    char *c_urlparam;
-    int i_num_urls;
-    char **pc_urls;
-    char *c_expected;
+  // Read only for threads
+  int i_duration_s;
+  int i_concurrent;
+  int i_timeout;
+  double d_rps_wanted;
+  char *c_urlparam;
+  int i_num_urls;
+  char **pc_urls;
+  char *c_expected;
 
-    // Read/write for threads
-    pthread_mutex_t mutex;
-    int i_exit;
-    double d_time_min;
-    double d_time_max;
-    double d_time_avg;
-    unsigned int ui_curl_errors;
-    unsigned int ui_parse_errors;
-    unsigned int ui_timeout_exceeded;
-    unsigned int ui_count;
-    unsigned int ui_count_total;
-    double d_sleep_us;
+  // Read/write for threads
+  pthread_mutex_t mutex;
+  int i_exit;
+  double d_time_min;
+  double d_time_max;
+  double d_time_avg;
+  unsigned int ui_curl_errors;
+  unsigned int ui_parse_errors;
+  unsigned int ui_timeout_exceeded;
+  unsigned int ui_count;
+  unsigned int ui_count_total;
+  double d_sleep_us;
 };
 
 void usage(void);
