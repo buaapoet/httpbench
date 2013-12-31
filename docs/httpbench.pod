@@ -69,6 +69,6 @@ See package description or project website.
 
 =head1 AUTHOR
 
-Paul Buetow - <http://httpbench.buetow.org>
+Paul Buetow - <http://httpbench.buetow.foo>
 
 =cut

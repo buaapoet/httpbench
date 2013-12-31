@@ -1,6 +1,6 @@
 Format: http://dep.debian.net/deps/dep5
 Upstream-Name: httpbench
-Source: http://httpbench.buetow.org
+Source: http://httpbench.buetow.foo
 
 Files: *
 Copyright: 2012 Paul Buetow <paul@buetow.org>
