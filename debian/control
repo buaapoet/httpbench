@@ -5,7 +5,7 @@ Maintainer: Paul Buetow <paul@buetow.org>
 Build-Depends: debhelper (>= 8.0.0), libcurl3-gnutls-dev, perl
 Standards-Version: 3.9.2
 Homepage: http://httpbench.buetow.foo
-Vcs-Git: git://git.buetow.org/httpbench
+Vcs-Git: https://github.com/rantanplan//httpbench
 Vcs-Browser: http://web.buetow.org/git/?p=httpbench.git;a=summary
 
 Package: httpbench
