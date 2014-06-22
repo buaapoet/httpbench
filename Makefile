@@ -20,5 +20,12 @@ documentation:
 	pod2text ./docs/httpbench.pod > ./docs/httpbench.txt
 	# For github page
 	cp ./docs/$(NAME).pod README.pod
+release: dch deb dput
+	bash -c "git tag $$(cat .version)"
+	git push --tags
+	git commit -a -m 'New release'
+	git push origin master
 deb: 
 	dpkg-buildpackage
+dput:
+	dput -u wheezy-buetowdotorg ../$(NAME)_$$(cat ./.version)_amd64.changes
