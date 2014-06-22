@@ -25,6 +25,8 @@ release: dch deb dput
 	git push --tags
 	git commit -a -m 'New release'
 	git push origin master
+dch: 
+	dch -i
 deb: 
 	dpkg-buildpackage
 dput:
