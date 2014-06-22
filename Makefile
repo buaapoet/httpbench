@@ -20,6 +20,8 @@ documentation:
 	pod2man --release="$(NAME) $$(cut -d' ' -f2 debian/changelog | head -n 1 | sed 's/(//;s/)//')" \
                        --center="User Commands" ./docs/httpbench.pod > ./docs/httpbench.1
 	pod2text ./docs/httpbench.pod > ./docs/httpbench.txt
+	# For github page
+	cp ./docs/$(NAME).pod README.pod
 deb: 
 	dpkg-buildpackage
 ctags:
