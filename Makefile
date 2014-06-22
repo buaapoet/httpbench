@@ -25,6 +25,8 @@ release: dch deb dput
 	git push --tags
 	git commit -a -m 'New release'
 	git push origin master
+version:
+	cut -d' ' -f2 debian/changelog | head -n 1 | sed 's/(//;s/)//' > .version
 dch: 
 	dch -i
 deb: 

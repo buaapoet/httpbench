@@ -1,3 +1,10 @@
+httpbench (0.2.2) stable; urgency=low
+
+  * Add 'release' Makefile target
+  * Add README.pod for Github page
+
+ -- Paul Buetow <paul@buetow.org>  Sun, 22 Jun 2014 11:47:42 +0200
+
 httpbench (0.2.1.1) stable; urgency=low
 
   * Bugfix only release. Fixes error on parsing URL.
