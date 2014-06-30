@@ -4,6 +4,19 @@
 
 #include "httpbench.h"
 
+// "Private macro" (only used in this file, so not declared in .h)
+#define _PRINT_STATS \
+                print_stats(p_data->ui_count_total, \
+                            (int) t_elapsed_total, \
+                            p_data->i_duration_s, \
+                            p_data->d_rps_wanted, \
+                            p_data->d_time_max, \
+                            p_data->d_time_min, \
+                            1000 * p_data->d_time_avg / (double) p_data->ui_time_avg_count, \
+                            p_data->ui_timeout_exceeded, \
+                            p_data->ui_curl_errors, \
+                            p_data->ui_parse_errors);
+
 void synopsis(void) {
   printf("httpbench %s synopsis:\n", VERSION);
   printf("httpbench -u <url or urllist.txt> -d sec -c concurrent -r rps [-t ms] [-e expected]\n"); 
@@ -29,6 +42,8 @@ void checkarg_i(char c_name, int i_arg) {
 void print_stats(
     unsigned int ui_count,
     int i_elapsed_time,
+    int i_wanted_time,
+    double d_rps_wanted,
     double d_time_max,
     double d_time_min,
     double d_time_avg,
