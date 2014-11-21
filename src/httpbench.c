@@ -42,8 +42,6 @@ void checkarg_i(char c_name, int i_arg) {
 void print_stats(
     unsigned int ui_count,
     int i_elapsed_time,
-    int i_wanted_time,
-    double d_rps_wanted,
     double d_time_max,
     double d_time_min,
     double d_time_avg,
